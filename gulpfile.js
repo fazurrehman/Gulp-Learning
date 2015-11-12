@@ -6,7 +6,10 @@ var gulp        = require('gulp'),
 
     uglify      = require('gulp-uglify'),
     rename      = require('gulp-rename'),
-    sass        = require('gulp-sass');
+    sass        = require('gulp-sass'),
+    autoprefix  = require('gulp-autoprefixer');
+    jade        = require('gulp-jade');
+
 
 
 /* Script task
@@ -22,9 +25,18 @@ gulp.task('scripts', function(){
 *******************************************/
 gulp.task('sass', function(){
   return gulp.src('scss/*.scss')
+  .pipe(autoprefix(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], { cascade: true }))
   .pipe(sass().on('error', sass.logError))
   .pipe(gulp.dest('css/'))
   .pipe(reload({stream:true}));
+})
+
+/* jade task
+*******************************************/
+gulp.task('jade', function(){
+  return gulp.src('jadefiles/*.jade')
+  .pipe(jade({pretty: true}))
+  .pipe(gulp.dest(''));
 })
 
 
@@ -32,6 +44,7 @@ gulp.task('sass', function(){
 *******************************************/
 gulp.task('html', function(){
   return gulp.src('*.html')
+  .pipe(reload({stream:true}));
 })
 
 
@@ -46,12 +59,12 @@ gulp.task('browserSync', function(){
 })
 
 
-
 /* Watch task
 *******************************************/
 gulp.task('watch', function(){
   gulp.watch('js/*.js', ['scripts']);
   gulp.watch('scss/*.scss', ['sass']);
+  gulp.watch('jadefiles/*.jade', ['jade']);
   gulp.watch('*.html', ['html']);
 });
 

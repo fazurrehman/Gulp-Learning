@@ -3,12 +3,12 @@
 var gulp        = require('gulp'),
     browserSync = require('browser-sync'),
     reload      = browserSync.reload, 
-
     uglify      = require('gulp-uglify'),
-    rename      = require('gulp-rename'),
     sass        = require('gulp-sass'),
-    autoprefix  = require('gulp-autoprefixer');
-    jade        = require('gulp-jade');
+    autoprefix  = require('gulp-autoprefixer'),
+    jade        = require('gulp-jade'),
+    rename      = require('gulp-rename'),
+    del         = require('del');
 
 
 
@@ -56,6 +56,13 @@ gulp.task('browserSync', function(){
       baseDir: ''
     }
   });
+})
+
+/* Build task
+*******************************************/
+gulp.task('bulid:copy', function(){
+  return gulp.src('/*')
+  .pipe(gulp.dest('bulid/'));
 })
 
 
